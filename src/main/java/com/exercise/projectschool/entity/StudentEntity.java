@@ -29,4 +29,7 @@ public class StudentEntity {
 
     @Column(name = "school")
     String school;
+
+    @Column(name = "serialnumber")
+    String serialNumber;
 }

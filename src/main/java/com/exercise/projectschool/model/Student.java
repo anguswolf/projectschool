@@ -11,8 +11,10 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Student {
+    Long id;
     String name;
     String city;
     String age;
     String school;
+    String serialNumber;
 }

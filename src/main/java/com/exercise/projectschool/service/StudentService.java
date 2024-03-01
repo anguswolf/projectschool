@@ -9,5 +9,9 @@ import java.util.List;
 public interface StudentService {
     List<StudentEntity> getAllStudents();
 
-    ResponseEntity<Void> saveStudent(List<Student> students);
+    ResponseEntity<StudentEntity>  getStudentBySerialNumber(String serialNumber);
+
+    ResponseEntity<Void> addStudents(List<Student> students);
+
+    ResponseEntity<Void> updateStudent(Student student);
 }

@@ -11,17 +11,27 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path= "/school")
+@RequestMapping(path= "/student")
 public class StudentController {
     private final StudentService studentService;
 
-    @GetMapping(path= "/student")
-    public List<StudentEntity> getStudent() {
+    @GetMapping(path = "/{serialNumber}")
+    public ResponseEntity<StudentEntity> getStudent(@PathVariable String serialNumber) {
+        return studentService.getStudentBySerialNumber(serialNumber);
+    }
+
+    @GetMapping(path= "/all")
+    public List<StudentEntity> getStudents() {
         return studentService.getAllStudents();
     }
 
-    @PostMapping(path= "/add/student")
-    public ResponseEntity<Void> postStudent(@RequestBody List<Student> students) {
-       return studentService.saveStudent(students);
+    @PostMapping(path= "/add")
+    public ResponseEntity<Void> addStudents(@RequestBody List<Student> students) {
+       return studentService.addStudents(students);
+    }
+
+    @PutMapping(path = "/update")
+    public ResponseEntity<Void> updateStudent(@RequestBody Student student) {
+        return studentService.updateStudent(student);
     }
 }
