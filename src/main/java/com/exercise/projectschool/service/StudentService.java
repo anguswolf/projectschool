@@ -14,4 +14,8 @@ public interface StudentService {
     ResponseEntity<Void> addStudents(List<Student> students);
 
     ResponseEntity<Void> updateStudent(Student student);
+
+    ResponseEntity<Void> deleteStudentBySerialNumber(String serialNumber);
+
+    ResponseEntity<Void> deleteAllStudents();
 }
