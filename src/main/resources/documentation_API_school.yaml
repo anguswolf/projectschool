@@ -9,6 +9,8 @@ info:
 tags:
   - name: Student
     description: Student Found By SerialNumber
+  - name: Teacher
+    description: Teacher Found By SerialNumber
 paths:
   /student/{serialNumber}:
     get:
@@ -112,6 +114,108 @@ paths:
         '200':
           description: All students deleted successfully
 
+  /teacher/{serialNumber}:
+    get:
+      summary: Get teacher by serial number
+      operationId: getTeacherBySerialNumber
+      tags:
+        - Teacher
+      parameters:
+        - name: serialNumber
+          in: path
+          required: true
+          description: Serial number of the teacher
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Teacher found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeacherEntity'
+        '404':
+          description: Teacher not found
+        '409':
+          description: More than one teacher found
+
+  /teacher/all:
+    get:
+      summary: Get all teachers
+      operationId: getAllTeachers
+      tags:
+        - Teacher
+      responses:
+        '200':
+          description: List of all teachers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TeacherEntity'
+
+  /teacher/add:
+    post:
+      summary: Add teachers
+      operationId: addTeachers
+      tags:
+        - Teacher
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Teacher'
+      responses:
+        '200':
+          description: Teachers added successfully
+
+  /teacher/update:
+    put:
+      summary: Update teacher
+      operationId: updateTeacher
+      tags:
+        - Teacher
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Teacher'
+      responses:
+        '200':
+          description: Teacher updated successfully
+
+  /teacher/delete/{serialNumber}:
+    delete:
+      summary: Delete teacher by serial number
+      operationId: deleteTeacherBySerialNumber
+      tags:
+        - Teacher
+      parameters:
+        - name: serialNumber
+          in: path
+          required: true
+          description: Serial number of the teacher to delete
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Teacher deleted successfully
+
+  /teacher/delete/all:
+    delete:
+      summary: Delete all teachers
+      operationId: deleteAllTeachers
+      tags:
+        - Teacher
+      responses:
+        '200':
+          description: All teachers deleted successfully
+
 components:
   schemas:
     Student:
@@ -157,3 +261,47 @@ components:
         serialNumber:
           type: string
           example: ABC123
+
+    Teacher:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: John Doe
+        city:
+          type: string
+          example: New York
+        age:
+          type: string
+          example: 30
+        subject:
+          type: string
+          example: Mathematics
+        serialNumber:
+          type: string
+          example: TCH123
+
+    TeacherEntity:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: John Doe
+        city:
+          type: string
+          example: New York
+        age:
+          type: string
+          example: 30
+        subject:
+          type: string
+          example: Mathematics
+        serialNumber:
+          type: string
+          example: TCH123

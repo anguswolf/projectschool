@@ -25,4 +25,10 @@ public class TeacherEntity {
 
     @Column(name = "matter")
     String matter;
+
+    @Column(name = "school")
+    String school;
+
+    @Column(name = "serialnumber")
+    String serialNumber;
 }

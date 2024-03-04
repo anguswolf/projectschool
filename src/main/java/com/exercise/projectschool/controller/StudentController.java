@@ -22,22 +22,12 @@ import java.util.List;
 public class StudentController {
     private final StudentService studentService;
 
-    @Operation(
-            summary = "Get student by serial number",
-            description = "Student found")
-    @io.swagger.v3.oas.annotations.responses.ApiResponses({
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", content = { @Content(mediaType = "application/json") }),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
     @GetMapping(path = "/{serialNumber}")
-    public ResponseEntity<StudentEntity> getStudent(@PathVariable String serialNumber) {
+    public ResponseEntity<List<StudentEntity>> getStudent(@PathVariable String serialNumber) {
         return studentService.getStudentBySerialNumber(serialNumber);
     }
-
-
-
     @GetMapping(path= "/all")
-    public List<StudentEntity> getStudents() {
+    public ResponseEntity<List<StudentEntity>> getAllStudents() {
         return studentService.getAllStudents();
     }
 

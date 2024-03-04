@@ -7,9 +7,9 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public interface StudentService {
-    List<StudentEntity> getAllStudents();
+    ResponseEntity<List<StudentEntity>> getAllStudents();
 
-    ResponseEntity<StudentEntity>  getStudentBySerialNumber(String serialNumber);
+    ResponseEntity<List<StudentEntity>>  getStudentBySerialNumber(String serialNumber);
 
     ResponseEntity<Void> addStudents(List<Student> students);
 
