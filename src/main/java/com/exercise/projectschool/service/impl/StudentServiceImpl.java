@@ -102,21 +102,14 @@ public class StudentServiceImpl implements StudentService {
 
         int countStudent = 1;
 
-        // Controlla se ci sono più di un record con lo stesso serialNumber
-        if(studentSameSerialNumber.size() > 1) {
-            /*log.error("Trovati piu studenti con lo stesso serialNumber: {}", serialNumber);
-            return new ResponseEntity<>(HttpStatus.CONFLICT); // Restituisci un codice di stato 409 Conflict*/
+        // Controlla se ci sono uno o più di un record con lo stesso serialNumber
+        if(!studentSameSerialNumber.isEmpty()) {
             for (StudentEntity student: studentSameSerialNumber) {
                 studentRepository.delete(student);
                 log.info("Studente {} eliminato dal database: {}", countStudent, student);
                 countStudent++;
             }
             log.info("Tutti gli studenti eliminati con serialNumber {}", serialNumber);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }else if (!studentSameSerialNumber.isEmpty()) {   //Solo uno studente con lo stesso serialNumber
-            StudentEntity studentToDelete = studentSameSerialNumber.get(0);
-            studentRepository.delete(studentToDelete);
-            log.info("Studente eliminato dal database: {}", studentToDelete);
             return new ResponseEntity<>(HttpStatus.OK);
         }else {
             log.info("Nessun Studente trovato con serialNumber {}", serialNumber);
