@@ -2,6 +2,7 @@ package com.exercise.projectschool.service.impl;
 
 import com.exercise.projectschool.commonUtils.CommonUtils;
 import com.exercise.projectschool.entity.StudentEntity;
+import com.exercise.projectschool.entity.TeacherEntity;
 import com.exercise.projectschool.model.Student;
 import com.exercise.projectschool.repository.StudentRepository;
 import com.exercise.projectschool.service.StudentService;
@@ -22,21 +23,19 @@ public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
 
     @Override
-    public List<StudentEntity> getAllStudents() {
-        return studentRepository.findAll();
+    public ResponseEntity<List<StudentEntity>> getAllStudents() {
+        List<StudentEntity> listAllStudents = studentRepository.findAll();
+        log.info("Studenti presenti: {}", listAllStudents);
+
+        return new ResponseEntity<>(listAllStudents, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<StudentEntity> getStudentBySerialNumber(String serialNumber) {
+    public ResponseEntity<List<StudentEntity>> getStudentBySerialNumber(String serialNumber) {
         List<StudentEntity> listAllStudents = studentRepository.findBySerialNumberIgnoreCase(serialNumber);
-        // Controlla se ci sono più di un record con lo stesso serialNumber
-        if (listAllStudents.size() > 1) {
-            log.error("Trovati più studenti con lo stesso serialNumber: {}", serialNumber);
-            return new ResponseEntity<>(HttpStatus.CONFLICT); // Restituisci un codice di stato 409 Conflict
-        } else if (!listAllStudents.isEmpty()) { // Se c'è solo un record con lo stesso serialNumber
-            StudentEntity student = listAllStudents.get(0);
-            log.info("Trovato lo studente con questo serialNumber: {}", serialNumber);
-            return new ResponseEntity<>(student, HttpStatus.OK); // Restituisci lo studente trovato con codice di stato 200 OK
+        if (!listAllStudents.isEmpty()) { // Se c'è solo uno o piu record con lo stesso serialNumber
+            log.info("Trovati studenti {} con il serialNumber: {}", listAllStudents, serialNumber);
+            return new ResponseEntity<>(listAllStudents, HttpStatus.OK); // Restituisci lo studente trovato con codice di stato 200 OK
         } else {
             log.info("Non esiste uno studente con questo serialNumber: {}", serialNumber);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Restituisci un codice di stato 404 Not Found
@@ -47,47 +46,53 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public ResponseEntity<Void> addStudents(List<Student> students) {
         {
-            log.info("Received for student: {}", students);
-
             try {
                 List<StudentEntity> studentEntities = new ArrayList<>();
                 for (Student student : students) {
-                    studentEntities.add(CommonUtils.buildStudent(student));
+                    if (studentRepository.findBySerialNumberIgnoreCase(student.getSerialNumber()).isEmpty()) {
+                        studentEntities.add(CommonUtils.buildStudentEntity(student));
+                    } else {
+                        log.info("Studente gia presente con il serialNumber: {}", student.getSerialNumber());
+                        return new ResponseEntity<>(HttpStatus.CONFLICT);
+                    }
                 }
-
                 studentRepository.saveAll(studentEntities);
 
-                log.info("Scrittura sul DataBase avvenuta con successo: {}", studentEntities);
+                log.info("Studenti aggiunti: {}", studentEntities);
                 return new ResponseEntity<>(HttpStatus.CREATED);
             } catch (Exception e) {
                 log.error(e);
             }
-            // Do any necessary processing with the received data
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @Override
     public ResponseEntity<Void> updateStudent(Student student) {
-        log.info("Received for student: {}", student);
         String serialNumber = student.getSerialNumber();
 
-
-        // Trova tutti gli studenti con lo stesso serialNumber
+        //Trova tutti gli studenti con lo stesso serialNumber
         List<StudentEntity> studentsWithSameSerial = studentRepository.findBySerialNumberIgnoreCase(serialNumber);
 
         // Controlla se ci sono più di un record con lo stesso serialNumber
         if (studentsWithSameSerial.size() > 1) {
             log.error("Trovati più studenti con lo stesso serialNumber: {}", serialNumber);
-            return new ResponseEntity<>(HttpStatus.CONFLICT); // Restituisci un codice di stato 409 Conflict
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         } else if (!studentsWithSameSerial.isEmpty()) { // Se c'è solo un record con lo stesso serialNumber
             StudentEntity studentToUpdate = studentsWithSameSerial.get(0);
-            studentToUpdate.setName(student.getName());
-            studentToUpdate.setCity(student.getCity());
-            studentToUpdate.setAge(student.getAge());
-            studentToUpdate.setSchool(student.getSchool());
-            studentRepository.save(studentToUpdate);
-            log.info("Studente aggiornato nel database: {}", studentToUpdate);
+            StudentEntity updatedStudent = StudentEntity.builder()
+                    .id(studentToUpdate.getId()) // Assicurati di impostare anche l'ID
+                    .name(student.getName())
+                    .city(student.getCity())
+                    .age(student.getAge())
+                    .school(student.getSchool())
+                    .serialNumber(student.getSerialNumber())
+                    .build();
+
+            // Salva il nuovo oggetto aggiornato nel repository
+            studentRepository.save(updatedStudent);
+
+            log.info("Studente aggiornato nel database: {}", updatedStudent);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } else {
             log.info("Nessun Studente trovato con serialNumber: {}", serialNumber);
@@ -95,23 +100,17 @@ public class StudentServiceImpl implements StudentService {
         }
     }
 
+
     @Override
     public ResponseEntity<Void> deleteStudentBySerialNumber(String serialNumber) {
-        log.info("Received for student: {}", serialNumber);        // Trova tutti gli studenti con lo stesso serialNumber
         List<StudentEntity> studentSameSerialNumber = studentRepository.findBySerialNumberIgnoreCase(serialNumber);
 
-        int countStudent = 1;
-
         // Controlla se ci sono uno o più di un record con lo stesso serialNumber
-        if(!studentSameSerialNumber.isEmpty()) {
-            for (StudentEntity student: studentSameSerialNumber) {
-                studentRepository.delete(student);
-                log.info("Studente {} eliminato dal database: {}", countStudent, student);
-                countStudent++;
-            }
-            log.info("Tutti gli studenti eliminati con serialNumber {}", serialNumber);
+        if (!studentSameSerialNumber.isEmpty()) {
+            studentRepository.deleteAll(studentSameSerialNumber);
+            log.info("Tutti gli studenti {} eliminati con serialNumber: {}", studentSameSerialNumber, serialNumber);
             return new ResponseEntity<>(HttpStatus.OK);
-        }else {
+        } else {
             log.info("Nessun Studente trovato con serialNumber {}", serialNumber);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -119,8 +118,15 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public ResponseEntity<Void> deleteAllStudents() {
-        studentRepository.deleteAll();
-        log.info("Tutti gli studenti eliminati dal database");
-        return new ResponseEntity<>(HttpStatus.OK);
+        List<StudentEntity> allStudentsFromDb = studentRepository.findAll();
+
+        if(!allStudentsFromDb.isEmpty()) {
+            studentRepository.deleteAll();
+            log.info("Tutti gli studenti: {} eliminati dal database", allStudentsFromDb);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else {
+            log.info("Nessun Studente trovato nel Database");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
