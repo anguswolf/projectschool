@@ -1,5 +1,6 @@
 package com.exercise.projectschool.model;
 
+import com.exercise.projectschool.entity.TeacherEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -17,4 +18,5 @@ public class Student {
     String age;
     String school;
     String serialNumber;
+    TeacherEntity teacherEntity;
 }

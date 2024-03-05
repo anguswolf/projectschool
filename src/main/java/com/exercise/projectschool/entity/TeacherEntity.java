@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @Entity(name = "TeacherEntity")
 @Data
 @AllArgsConstructor
@@ -31,4 +33,8 @@ public class TeacherEntity {
 
     @Column(name = "serialnumber")
     String serialNumber;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacherEntity", cascade = CascadeType.ALL)
+    private List<StudentEntity> StudententityList;
+
 }
