@@ -1,8 +1,11 @@
 package com.exercise.projectschool.model;
 
+import com.exercise.projectschool.entity.StudentEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.List;
 
 @ApiModel(description = "Teacher")
 @Data
@@ -17,4 +20,5 @@ public class Teacher {
     String matter;
     String school;
     String serialNumber;
+    List<StudentEntity> StudententityList;
 }
