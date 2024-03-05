@@ -1,6 +1,7 @@
 package com.exercise.projectschool.entity;
 
 import com.exercise.projectschool.model.Teacher;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -34,6 +35,7 @@ public class StudentEntity {
     @Column(name = "serialnumber")
     String serialNumber;
 
+    @JsonBackReference
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "teacherentity_id")
     private TeacherEntity teacherEntity;

@@ -1,5 +1,7 @@
 package com.exercise.projectschool.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -34,7 +36,9 @@ public class TeacherEntity {
     @Column(name = "serialnumber")
     String serialNumber;
 
+    @JsonIgnore
+    @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacherEntity", cascade = CascadeType.ALL)
-    private List<StudentEntity> StudententityList;
+    List<StudentEntity> StudententityList;
 
 }
