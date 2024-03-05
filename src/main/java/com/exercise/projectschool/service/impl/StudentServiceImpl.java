@@ -2,7 +2,6 @@ package com.exercise.projectschool.service.impl;
 
 import com.exercise.projectschool.commonUtils.CommonUtils;
 import com.exercise.projectschool.entity.StudentEntity;
-import com.exercise.projectschool.entity.TeacherEntity;
 import com.exercise.projectschool.model.Student;
 import com.exercise.projectschool.repository.StudentRepository;
 import com.exercise.projectschool.service.StudentService;
@@ -25,7 +24,6 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public ResponseEntity<List<StudentEntity>> getAllStudents() {
         List<StudentEntity> listAllStudents = studentRepository.findAll();
-        log.info("Studenti presenti: {}", listAllStudents);
 
         return new ResponseEntity<>(listAllStudents, HttpStatus.OK);
     }

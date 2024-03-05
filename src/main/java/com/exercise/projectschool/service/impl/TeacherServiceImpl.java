@@ -96,7 +96,7 @@ public class TeacherServiceImpl implements TeacherService {
 
         if(!teachersWithSameSerial.isEmpty()) {
             teacherRepository.deleteAll(teachersWithSameSerial);
-            log.info("Tutti gli insegnanti {} eliminati con serialNumber: {}",teachersWithSameSerial, serialNumber);
+            log.info("Tutti gli insegnanti eliminati con serialNumber: {}", serialNumber);
             return new ResponseEntity<>(HttpStatus.OK);
         }else {
             log.info("Nessun Insegnante trovato con serialNumber {}", serialNumber);
