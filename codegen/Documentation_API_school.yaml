@@ -1,0 +1,355 @@
+openapi: 3.0.2
+info:
+  title: Documentation API school
+  description: Documentation API school
+  contact:
+    name: Michael Spigolon
+    email: michaelspig@gmail.com
+  version: v1
+tags:
+  - name: Student
+    description: Student Found By SerialNumber
+  - name: Teacher
+    description: Teacher Found By SerialNumber
+  - name: Course
+    description: Operations related to courses
+paths:
+  /student/{serialNumber}:
+    get:
+      summary: Get student by serial number
+      operationId: getStudentBySerialNumber
+      tags:
+        - Student
+      parameters:
+        - name: serialNumber
+          in: path
+          required: true
+          description: Serial number of the student
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Student found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentEntity'
+        '404':
+          description: Student not found
+        '409':
+          description: More than one student found
+
+  /student/all:
+    get:
+      summary: Get all students
+      operationId: getAllStudents
+      tags:
+        - Student
+      responses:
+        '200':
+          description: List of all students
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StudentEntity'
+
+  /student/add:
+    post:
+      summary: Add students
+      operationId: addStudents
+      tags:
+        - Student
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Student'
+      responses:
+        '200':
+          description: Students added successfully
+
+  /student/update:
+    put:
+      summary: Update student
+      operationId: updateStudent
+      tags:
+        - Student
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+      responses:
+        '200':
+          description: Student updated successfully
+
+  /student/delete/{serialNumber}:
+    delete:
+      summary: Delete student by serial number
+      operationId: deleteStudentBySerialNumber
+      tags:
+        - Student
+      parameters:
+        - name: serialNumber
+          in: path
+          required: true
+          description: Serial number of the student to delete
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Student deleted successfully
+
+  /student/delete/all:
+    delete:
+      summary: Delete all students
+      operationId: deleteAllStudents
+      tags:
+        - Student
+      responses:
+        '200':
+          description: All students deleted successfully
+
+  /teacher/{serialNumber}:
+    get:
+      summary: Get teacher by serial number
+      operationId: getTeacherBySerialNumber
+      tags:
+        - Teacher
+      parameters:
+        - name: serialNumber
+          in: path
+          required: true
+          description: Serial number of the teacher
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Teacher found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeacherEntity'
+        '404':
+          description: Teacher not found
+        '409':
+          description: More than one teacher found
+
+  /teacher/all:
+    get:
+      summary: Get all teachers
+      operationId: getAllTeachers
+      tags:
+        - Teacher
+      responses:
+        '200':
+          description: List of all teachers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TeacherEntity'
+
+  /teacher/add:
+    post:
+      summary: Add teachers
+      operationId: addTeachers
+      tags:
+        - Teacher
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Teacher'
+      responses:
+        '200':
+          description: Teachers added successfully
+
+  /teacher/update:
+    put:
+      summary: Update teacher
+      operationId: updateTeacher
+      tags:
+        - Teacher
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Teacher'
+      responses:
+        '200':
+          description: Teacher updated successfully
+
+  /teacher/delete/{serialNumber}:
+    delete:
+      summary: Delete teacher by serial number
+      operationId: deleteTeacherBySerialNumber
+      tags:
+        - Teacher
+      parameters:
+        - name: serialNumber
+          in: path
+          required: true
+          description: Serial number of the teacher to delete
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Teacher deleted successfully
+
+  /teacher/delete/all:
+    delete:
+      summary: Delete all teachers
+      operationId: deleteAllTeachers
+      tags:
+        - Teacher
+      responses:
+        '200':
+          description: All teachers deleted successfully
+
+  /course/studentsbyteacher/{serialNumber}:
+    get:
+      summary: Get students by teacher
+      operationId: getStudentsByTeacher
+      tags:
+        - Course
+      parameters:
+        - name: serialNumber
+          in: path
+          required: true
+          description: Serial number of the teacher
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of students found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StudentEntity'
+
+  /course/addstudent/{teachersSerialNumber}:
+    post:
+      summary: Add student to course
+      operationId: addStudentToCourse
+      tags:
+        - Course
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentEntity'
+      parameters:
+        - name: teachersSerialNumber
+          in: path
+          required: true
+          description: Serial number of the teacher
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Student added to course successfully
+
+components:
+  schemas:
+    Student:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: John Doe
+        city:
+          type: string
+          example: New York
+        age:
+          type: string
+          example: "25"
+        school:
+          type: string
+          example: XYZ High School
+        serialNumber:
+          type: string
+          example: ABC123
+
+    StudentEntity:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: John Doe
+        city:
+          type: string
+          example: New York
+        age:
+          type: string
+          example: "25"
+        school:
+          type: string
+          example: XYZ High School
+        serialNumber:
+          type: string
+          example: ABC123
+
+    Teacher:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: John Doe
+        city:
+          type: string
+          example: New York
+        age:
+          type: string
+          example: "30"
+        subject:
+          type: string
+          example: Mathematics
+        serialNumber:
+          type: string
+          example: TCH123
+
+    TeacherEntity:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: John Doe
+        city:
+          type: string
+          example: New York
+        age:
+          type: string
+          example: "30"
+        subject:
+          type: string
+          example: Mathematics
+        serialNumber:
+          type: string
+          example: TCH123

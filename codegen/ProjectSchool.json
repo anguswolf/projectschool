@@ -1,0 +1,18 @@
+{
+  "basePackage": "com.exercise.projectschool",
+  "configPackage": "com.exercise.projectschool.configuration",
+  "apiPackage": "com.exercise.projectschool.generated.api",
+  "modelPackage": "com.exercise.projectschool.generated.model",
+
+  "groupId": "com.exercise",
+  "artifactId": "projectschool",
+  "artifactVersion": "0.0.1-SNAPSHOT",
+  "artifactDescription": "projectschool",
+
+  "java17": "true",
+  "title": "projectschool",
+  "useTags": true,
+
+  "dateLibrary": "java17",
+  "hideGenerationTimestamp": "true"
+}
