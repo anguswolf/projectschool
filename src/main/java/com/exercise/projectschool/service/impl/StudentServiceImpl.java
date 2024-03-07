@@ -20,6 +20,7 @@ import java.util.List;
 public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
+    private final CourseServiceImpl courseServiceImpl;
 
     @Override
     public ResponseEntity<List<StudentEntity>> getAllStudents() {
@@ -48,7 +49,8 @@ public class StudentServiceImpl implements StudentService {
                 List<StudentEntity> studentEntities = new ArrayList<>();
                 for (Student student : students) {
                     if (studentRepository.findBySerialNumberIgnoreCase(student.getSerialNumber()).isEmpty()) {
-                        studentEntities.add(CommonUtils.buildStudentEntity(student));
+                        String capitalCity = courseServiceImpl.fetchDataItaly();
+                        studentEntities.add(CommonUtils.buildStudentEntity(student, capitalCity));
                     } else {
                         log.info("Studente gia presente con il serialNumber: {}", student.getSerialNumber());
                         return new ResponseEntity<>(HttpStatus.CONFLICT);
