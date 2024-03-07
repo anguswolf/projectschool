@@ -1,6 +1,7 @@
 package com.exercise.projectschool.client;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -14,6 +15,7 @@ public class CountryClient {
         this.restTemplate = restTemplateBuilder.build();
     }
 
+    @Cacheable(cacheNames = "countryClient", cacheManager = "cacheManager")
     public String callExternalService() {
         String externalServiceUrl = "https://restcountries.com/v3.1/name/italy"; // URL del servizio esterno
         ResponseEntity<String> response = restTemplate.getForEntity(externalServiceUrl, String.class);
