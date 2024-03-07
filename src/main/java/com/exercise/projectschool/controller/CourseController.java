@@ -1,5 +1,6 @@
 package com.exercise.projectschool.controller;
 
+import com.exercise.projectschool.dto.TeacherStudentDTO;
 import com.exercise.projectschool.entity.StudentEntity;
 import com.exercise.projectschool.service.CourseService;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +22,19 @@ public class CourseController {
         return courseService.listStudentByTeacher(serialNumber);
     }
 
+    @GetMapping(path = "/studentsandteachersbyschool/{school}")
+    public ResponseEntity<TeacherStudentDTO> getTeachersAndStudentsSameSchool(@PathVariable String school) {
+        return courseService.getTeachersAndStudentsSameSchool(school);
+    }
+
     @PostMapping(path = "/addstudent/{teachersSerialNumber}")
     public ResponseEntity<Void> addStudentToCourse (@RequestBody StudentEntity student, @PathVariable String teachersSerialNumber) {
         return courseService.addStudentToCourse(student, teachersSerialNumber);
+    }
+
+    @GetMapping(path = "/country/italy")
+    public String fetchDataItaly () {
+        return courseService.fetchDataItaly();
     }
 
 }

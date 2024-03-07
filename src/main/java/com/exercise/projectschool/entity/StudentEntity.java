@@ -1,6 +1,5 @@
 package com.exercise.projectschool.entity;
 
-import com.exercise.projectschool.model.Teacher;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,6 +24,9 @@ public class StudentEntity {
 
     @Column(name = "city")
     String city;
+
+    @Column(name = "capital")
+    String capital;
 
     @Column(name = "age")
     String age;

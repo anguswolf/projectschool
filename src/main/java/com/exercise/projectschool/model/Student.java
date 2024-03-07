@@ -15,6 +15,7 @@ public class Student {
     Long id;
     String name;
     String city;
+    String capital;
     String age;
     String school;
     String serialNumber;
