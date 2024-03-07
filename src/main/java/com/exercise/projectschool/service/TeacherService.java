@@ -1,11 +1,15 @@
+/*
 package com.exercise.projectschool.service;
 
 
 import com.exercise.projectschool.entity.TeacherEntity;
 import com.exercise.projectschool.model.Teacher;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 
 public interface TeacherService {
     ResponseEntity<List<TeacherEntity>> getTeacherBySerialNumber(String serialNumber);
@@ -20,3 +24,4 @@ public interface TeacherService {
 
     ResponseEntity<Void> deleteAllTeachers();
 }
+*/

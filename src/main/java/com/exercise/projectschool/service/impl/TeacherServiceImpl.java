@@ -2,9 +2,9 @@ package com.exercise.projectschool.service.impl;
 
 import com.exercise.projectschool.commonUtils.CommonUtils;
 import com.exercise.projectschool.entity.TeacherEntity;
+import com.exercise.projectschool.generated.api.TeacherApi;
 import com.exercise.projectschool.model.Teacher;
 import com.exercise.projectschool.repository.TeacherRepository;
-import com.exercise.projectschool.service.TeacherService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Log4j2
-public class TeacherServiceImpl implements TeacherService {
+public class TeacherServiceImpl implements TeacherApi {
     private final TeacherRepository teacherRepository;
 
     @Override

@@ -1,3 +1,4 @@
+/*
 package com.exercise.projectschool.controller;
 
 import com.exercise.projectschool.entity.TeacherEntity;
@@ -46,3 +47,4 @@ public class TeacherController {
         return teacherService.deleteAllTeachers();
     }
 }
+*/

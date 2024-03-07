@@ -2,9 +2,9 @@ package com.exercise.projectschool.service.impl;
 
 import com.exercise.projectschool.entity.StudentEntity;
 import com.exercise.projectschool.entity.TeacherEntity;
+import com.exercise.projectschool.generated.api.CourseApi;
 import com.exercise.projectschool.repository.StudentRepository;
 import com.exercise.projectschool.repository.TeacherRepository;
-import com.exercise.projectschool.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -17,12 +17,12 @@ import java.util.Optional;
 @Log4j2
 @RequiredArgsConstructor
 @Service
-public class CourseServiceImpl implements CourseService {
+public class CourseServiceImpl implements CourseApi {
     private final StudentRepository studentRepository;
     private final TeacherRepository teacherRepository;
 
     @Override
-    public ResponseEntity<List<StudentEntity>> listStudentByTeacher(String serialNumber) {
+    public ResponseEntity<List<StudentEntity>> getStudentsByTeacher(String serialNumber) {
         List<TeacherEntity> teachersSameSerialNumber = teacherRepository.findTeacherBySerialNumber(serialNumber);
 
         if (teachersSameSerialNumber.size() > 1) {

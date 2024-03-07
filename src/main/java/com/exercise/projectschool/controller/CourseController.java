@@ -1,3 +1,4 @@
+/*
 package com.exercise.projectschool.controller;
 
 import com.exercise.projectschool.entity.StudentEntity;
@@ -27,3 +28,4 @@ public class CourseController {
     }
 
 }
+*/
