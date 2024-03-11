@@ -13,4 +13,6 @@ public interface TeacherRepository extends JpaRepository<TeacherEntity, Long> {
     List<TeacherEntity> findTeacherBySerialNumber(String serialNumber);
 
     List<TeacherEntity> findTeacherBySchool(String school);
+
+    TeacherEntity findTeacherEntityById(Long id);
 }
