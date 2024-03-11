@@ -17,7 +17,7 @@ public class StudentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
-    private Long id;
+    Long id;
 
     @Column(name = "name")
     String name;
@@ -40,6 +40,9 @@ public class StudentEntity {
     @JsonBackReference
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "teacherentity_id")
-    private TeacherEntity teacherEntity;
+    TeacherEntity teacherEntity;
+
+    @Column(name = "classroom")
+    String classRoom;
 
 }

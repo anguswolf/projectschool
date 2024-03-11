@@ -41,4 +41,9 @@ public class TeacherEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacherEntity", cascade = CascadeType.ALL)
     List<StudentEntity> StudententityList;
 
+    @JsonIgnore
+    @JsonManagedReference
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher", cascade = CascadeType.ALL)
+    List<CourseBookingEntity> courseBookingEntityList;
+
 }

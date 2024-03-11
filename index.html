@@ -27,36 +27,29 @@
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('studentForm').addEventListener('submit', function(event) {
             event.preventDefault();
+
             var formData = new FormData(this);
-            var studentData = {};
-            formData.forEach(function(value, key){
-                studentData[key] = value;
-            });
-            fetch('/student/add', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(studentData)
-            })
-                .then(function(response) {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost:8080/student/add', true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        console.log('Success:', xhr.responseText);
+                        alert('Student added successfully!');
+                        // Puoi aggiungere qui del codice per gestire la risposta dal server
+                    } else {
+                        console.error('Error:', xhr.responseText);
+                        alert('Error occurred while adding student!');
+                        // Puoi aggiungere qui del codice per gestire gli errori
                     }
-                    return response.json();
-                })
-                .then(function(data) {
-                    console.log('Success:', data);
-                    alert('Student added successfully!');
-                    // Potresti aggiungere qui del codice per gestire la risposta dal server
-                })
-                .catch(function(error) {
-                    console.error('Error:', error);
-                    alert('Error occurred while adding student!');
-                    // Potresti aggiungere qui del codice per gestire gli errori
-                });
+                }
+            };
+
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify(Object.fromEntries(formData)));
         });
     });
+
 </script>
 </body>
 </html>
