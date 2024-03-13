@@ -36,6 +36,11 @@ public class TeacherEntity {
     @Column(name = "serialnumber")
     String serialNumber;
 
+    //@JsonIgnore
+    @JsonManagedReference
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher", cascade = CascadeType.ALL)
+    List<ClassRoomEntity> classRoomList;
+
     @JsonIgnore
     @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacherEntity", cascade = CascadeType.ALL)
@@ -45,5 +50,4 @@ public class TeacherEntity {
     @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher", cascade = CascadeType.ALL)
     List<CourseBookingEntity> courseBookingEntityList;
-
 }

@@ -1,5 +1,6 @@
 package com.exercise.projectschool.model;
 
+import com.exercise.projectschool.entity.ClassRoomEntity;
 import com.exercise.projectschool.entity.StudentEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
@@ -20,5 +21,7 @@ public class Teacher {
     String matter;
     String school;
     String serialNumber;
+    String classRoom;
+    List<ClassRoomEntity> classRoomList;
     List<StudentEntity> StudententityList;
 }
