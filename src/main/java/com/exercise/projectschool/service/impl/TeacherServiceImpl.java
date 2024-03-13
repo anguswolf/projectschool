@@ -24,7 +24,7 @@ public class TeacherServiceImpl implements TeacherService {
     public ResponseEntity<List<TeacherEntity>> getTeacherBySerialNumber(String serialNumber) {
         List<TeacherEntity> listAllTeachers = teacherRepository.findTeacherBySerialNumber(serialNumber);
         if (!listAllTeachers.isEmpty()) {
-            log.info("Trovati insegnanti {} con il serialNumber: {}", listAllTeachers, serialNumber);
+            log.info("Trovati insegnanti con il serialNumber: {}", serialNumber);
             return new ResponseEntity<>(listAllTeachers, HttpStatus.OK);
         } else {
             log.info("Nessun insegnante con il serialNumber: {}", serialNumber);

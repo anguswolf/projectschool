@@ -19,5 +19,6 @@ public class Student {
     String age;
     String school;
     String serialNumber;
+    String classRoom;
     TeacherEntity teacherEntity;
 }
