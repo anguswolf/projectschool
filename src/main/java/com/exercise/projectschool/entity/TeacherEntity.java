@@ -36,14 +36,17 @@ public class TeacherEntity {
     @Column(name = "serialnumber")
     String serialNumber;
 
+    @Column(name = "classroom")
+    String classRoom;
+
     //@JsonIgnore
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher", cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "teacherList", cascade = CascadeType.ALL)
     List<ClassRoomEntity> classRoomList;
 
     @JsonIgnore
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacherEntity", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "teacherEntityList", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     List<StudentEntity> StudententityList;
 
     @JsonIgnore

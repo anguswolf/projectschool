@@ -41,11 +41,12 @@ public class StudentEntity {
     @Column(name = "serialnumber")
     String serialNumber;
 
-    @Column(name = "classroom")
-    String classRoom;
+    //@JsonIgnore
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    ClassRoomEntity classRoom;
 
-    @JsonBackReference
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "teacherentity_id")
-    TeacherEntity teacherEntity;
+    //@JsonBackReference
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    List<TeacherEntity> teacherEntityList;
 }

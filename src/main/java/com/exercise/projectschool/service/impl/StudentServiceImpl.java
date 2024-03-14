@@ -35,7 +35,7 @@ public class StudentServiceImpl implements StudentService {
     public ResponseEntity<List<StudentEntity>> getStudentBySerialNumber(String serialNumber) {
         List<StudentEntity> listAllStudents = studentRepository.findBySerialNumberIgnoreCase(serialNumber);
         if (!listAllStudents.isEmpty()) { // Se c'è solo uno o piu record con lo stesso serialNumber
-            log.info("Trovati studenti {} con il serialNumber: {}", listAllStudents, serialNumber);
+            log.info("Trovati studenti con il serialNumber: {}", serialNumber);
             return new ResponseEntity<>(listAllStudents, HttpStatus.OK); // Restituisci lo studente trovato con codice di stato 200 OK
         } else {
             log.info("Non esiste uno studente con questo serialNumber: {}", serialNumber);
