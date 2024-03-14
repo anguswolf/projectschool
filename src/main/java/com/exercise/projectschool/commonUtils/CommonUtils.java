@@ -18,7 +18,8 @@ public class CommonUtils {
                  .capital(student.getCapital())
                 .age(student.getAge())
                 .school(student.getSchool())
-                .serialNumber(student.getSerialNumber()).build();
+                .serialNumber(student.getSerialNumber())
+                 .classRoom(student.getClassRoom()).build();
          return studentEntity;
     }
 
@@ -28,7 +29,8 @@ public class CommonUtils {
                 .email(teacher.getEmail())
                 .matter(teacher.getMatter())
                 .school(teacher.getSchool())
-                .serialNumber(teacher.getSerialNumber()).build();
+                .serialNumber(teacher.getSerialNumber())
+                .classRoom(teacher.getClassRoom()).build();
     }
 
     public static TeacherStudentDTO buildTeacherStudentDTO(List<StudentEntity> studentEntities,List<TeacherEntity> teacherEntities,String school) {

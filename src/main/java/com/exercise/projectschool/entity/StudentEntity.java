@@ -1,7 +1,5 @@
 package com.exercise.projectschool.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -41,10 +39,13 @@ public class StudentEntity {
     @Column(name = "serialnumber")
     String serialNumber;
 
-    //@JsonIgnore
+    @Column(name = "classroom")
+    String classRoom;
+
+    /*//@JsonIgnore
     @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    ClassRoomEntity classRoom;
+    ClassRoomEntity classRoomRelation;*/
 
     //@JsonBackReference
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
