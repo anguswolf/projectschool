@@ -77,7 +77,7 @@ public class CourseServiceImpl implements CourseService {
                 log.info("Piu Insegnanti presenti con il serialNumber: {}", serialNumber);
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             } else if (!teachers.isEmpty()) {
-                TeacherEntity teacherToCourse = teacherRepository.findTeacherBySerialNumber(serialNumber).get(0);
+                List<TeacherEntity> teacherToCourse = teacherRepository.findTeacherBySerialNumber(serialNumber);
 
                 Optional<StudentEntity> optionalStudent = studentRepository.findBySerialNumberIgnoreCase(student.getSerialNumber()).stream().findFirst();
                 if (optionalStudent.isPresent()) {
@@ -90,10 +90,10 @@ public class CourseServiceImpl implements CourseService {
                             .school(student.getSchool())
                             .serialNumber(student.getSerialNumber()).build();
 
-                    studentUpdated.setTeacherEntity(teacherToCourse);
+                    studentUpdated.setTeacherEntityList(teacherToCourse);
                     studentRepository.save(studentUpdated);
                 } else {
-                    student.setTeacherEntity(teacherToCourse);
+                    student.setTeacherEntityList(teacherToCourse);
                     studentRepository.save(student);
                 }
 

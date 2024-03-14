@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @Entity(name = "ClassRoomEntity")
 @Data
 @AllArgsConstructor
@@ -22,11 +24,10 @@ public class ClassRoomEntity {
     String classRoom;
 
     @JsonBackReference
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "teacherentity_id")
-    TeacherEntity teacher;
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    List<TeacherEntity> teacherList;
 
-    /*@ManyToOne(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "studententity_id")
-    StudentEntity student;*/
+    List<StudentEntity> studentList;
 }
