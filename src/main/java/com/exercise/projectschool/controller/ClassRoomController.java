@@ -1,5 +1,6 @@
 package com.exercise.projectschool.controller;
 
+import com.exercise.projectschool.dto.TeacherStudentClassRoomDTO;
 import com.exercise.projectschool.entity.ClassRoomEntity;
 import com.exercise.projectschool.service.ClassRoomService;
 import lombok.RequiredArgsConstructor;
@@ -23,5 +24,10 @@ public class ClassRoomController {
     @GetMapping(path = "/all")
     public ResponseEntity<List<ClassRoomEntity>> getAllClassRoom() {
         return classRoomService.getAllClassRoom();
+    }
+
+    @GetMapping(path = "/all/classfull")
+    public ResponseEntity<List<TeacherStudentClassRoomDTO>> getAllClassRoomPopulate() {
+        return classRoomService.getAllClassRoomPopulate();
     }
 }

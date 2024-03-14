@@ -1,5 +1,6 @@
 package com.exercise.projectschool.service;
 
+import com.exercise.projectschool.dto.TeacherStudentClassRoomDTO;
 import com.exercise.projectschool.entity.ClassRoomEntity;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
@@ -10,4 +11,6 @@ public interface ClassRoomService {
     ResponseEntity<ClassRoomEntity> addClassRoom(String classRoom);
 
     ResponseEntity<List<ClassRoomEntity>> getAllClassRoom();
+
+    ResponseEntity<List<TeacherStudentClassRoomDTO>> getAllClassRoomPopulate();
 }

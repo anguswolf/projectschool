@@ -21,7 +21,8 @@ public class CacheConfig {
         cacheManager.setCaches(Arrays.asList(
                 new ConcurrentMapCache("countryClient"),
                 new ConcurrentMapCache("findAllStudent"),
-                new ConcurrentMapCache("findAllClassRoom")
+                new ConcurrentMapCache("findAllClassRoom"),
+                new ConcurrentMapCache("findAllClassRoomPopolate")
                 //Aggiungi altre cache se necessario
         ));
         return cacheManager;
@@ -29,7 +30,7 @@ public class CacheConfig {
 
     /**Pulisce entrambe le cache ogni 24 ore*/
     @Scheduled(fixedDelay = 24 * 60 * 60 * 1000) // 24 ore in millisecondi
-    @CacheEvict(cacheNames = {"countryClient", "findAllStudent", "findAllClassRoom"}, allEntries = true)
+    @CacheEvict(cacheNames = {"countryClient", "findAllStudent", "findAllClassRoom", "findAllClassRoomPopolate"}, allEntries = true)
     public void evictCache() {
     }
 }

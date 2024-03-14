@@ -23,7 +23,7 @@ public class ClassRoomEntity {
     @Column(name = "classroom")
     String classRoom;
 
-    @JsonBackReference
+    //@JsonBackReference
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     List<TeacherEntity> teacherList;
 

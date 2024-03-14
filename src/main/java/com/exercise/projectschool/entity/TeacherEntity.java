@@ -39,10 +39,10 @@ public class TeacherEntity {
     @Column(name = "classroom")
     String classRoom;
 
-    //@JsonIgnore
+   /* //@JsonIgnore
     @JsonManagedReference
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "teacherList", cascade = CascadeType.ALL)
-    List<ClassRoomEntity> classRoomList;
+    List<ClassRoomEntity> classRoomList;*/
 
     @JsonIgnore
     @JsonManagedReference
