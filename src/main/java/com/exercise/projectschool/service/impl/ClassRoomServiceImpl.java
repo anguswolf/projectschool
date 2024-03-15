@@ -1,9 +1,12 @@
 package com.exercise.projectschool.service.impl;
 
+import com.exercise.projectschool.commonUtils.CommonUtils;
 import com.exercise.projectschool.dto.TeacherStudentClassRoomDTO;
 import com.exercise.projectschool.entity.ClassRoomEntity;
 import com.exercise.projectschool.entity.StudentEntity;
 import com.exercise.projectschool.entity.TeacherEntity;
+import com.exercise.projectschool.model.Student;
+import com.exercise.projectschool.model.Teacher;
 import com.exercise.projectschool.repository.ClassRoomRepository;
 import com.exercise.projectschool.repository.StudentRepository;
 import com.exercise.projectschool.repository.TeacherRepository;
@@ -25,6 +28,7 @@ public class ClassRoomServiceImpl implements ClassRoomService {
     private final ClassRoomRepository classRoomRepository;
     private final StudentRepository studentRepository;
     private final TeacherRepository teacherRepository;
+    private final CommonUtils commonUtils;
 
     @Override
     public ResponseEntity<ClassRoomEntity> addClassRoom(String classRoom) {
@@ -55,12 +59,12 @@ public class ClassRoomServiceImpl implements ClassRoomService {
     @Cacheable(cacheNames = "findAllClassRoomPopolate", cacheManager = "cacheManager")
     @Override
     public ResponseEntity<List<TeacherStudentClassRoomDTO>> getAllClassRoomPopulate() {
-        List<ClassRoomEntity> classRoomEntityList = classRoomRepository.findAll();
-        List<StudentEntity> studentEntityList = studentRepository.findAll();
-        List<TeacherEntity> teacherEntitiesList = teacherRepository.findAll();
-
-
+        /** FindAll sugli oggetti classRoom-Student-Teacher*/
+        List<ClassRoomEntity> classRoomEntityList = commonUtils.findAllEntities(classRoomRepository);
+        List<StudentEntity> studentEntityList = commonUtils.findAllEntities(studentRepository);
+        List<TeacherEntity> teacherEntitiesList = commonUtils.findAllEntities(teacherRepository);
         List <TeacherStudentClassRoomDTO> teacherStudentClassRoomListDTO = new ArrayList<>();
+
 
         if(classRoomEntityList.isEmpty()) {
             log.info("Nessuna Classe Disponibile");
@@ -75,13 +79,13 @@ public class ClassRoomServiceImpl implements ClassRoomService {
 
             for(StudentEntity student : studentEntityList) {
                 String foundStudentClassRoom = student.getClassRoom();
-                if (foundClassRoom.equals(foundStudentClassRoom)) {
+                if (foundClassRoom.equalsIgnoreCase(foundStudentClassRoom)) {
                     studentList.add(student);
                 }
             }
             for (TeacherEntity teacher : teacherEntitiesList) {
                 String foundTeacherClassRoom = teacher.getClassRoom();
-                if (foundClassRoom.equals(foundTeacherClassRoom)) {
+                if (foundClassRoom.equalsIgnoreCase(foundTeacherClassRoom)) {
                     teacherList.add(teacher);
                 }
             }
