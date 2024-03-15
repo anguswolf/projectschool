@@ -5,6 +5,7 @@ import com.exercise.projectschool.entity.StudentEntity;
 import com.exercise.projectschool.entity.TeacherEntity;
 import com.exercise.projectschool.model.Student;
 import com.exercise.projectschool.model.Teacher;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -38,6 +39,10 @@ public class CommonUtils {
                 .teachers(teacherEntities)
                 .students(studentEntities)
                 .school(school).build();
+    }
+
+    public <T> List<T> findAllEntities(JpaRepository<T, ?> repository) {
+        return repository.findAll();
     }
 
 }
