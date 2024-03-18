@@ -36,7 +36,7 @@ public class CourseServiceImpl implements CourseService {
             log.info("Trovati piu insegnanti con il serialNumber: {}", serialNumber);
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } else if (!teachersSameSerialNumber.isEmpty()) {
-            List<StudentEntity> studentFound = teachersSameSerialNumber.get(0).getStudententityList();
+            List<StudentEntity> studentFound = teachersSameSerialNumber.get(0).getStudentEntityList();
             return new ResponseEntity<>(studentFound, HttpStatus.OK);
         } else {
             log.info("Nessun professore con il serialNumber: {}", serialNumber);
