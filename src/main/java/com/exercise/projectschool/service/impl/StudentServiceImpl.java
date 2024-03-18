@@ -46,7 +46,6 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public ResponseEntity<Void> addStudents(List<Student> students) {
-        {
             try {
                 List<StudentEntity> studentEntities = new ArrayList<>();
                 for (Student student : students) {
@@ -66,7 +65,19 @@ public class StudentServiceImpl implements StudentService {
                 log.error(e);
             }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
+    public ResponseEntity<Void> addStudentAssociatedTeacher(StudentEntity student) {
+        try {
+            StudentEntity studentAssociatedTeacher = studentRepository.save(student);
+
+            log.info("Studente aggiunto: {}", studentAssociatedTeacher);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (Exception e) {
+            log.error(e);
         }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @Override

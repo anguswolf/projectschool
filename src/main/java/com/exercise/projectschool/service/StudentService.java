@@ -13,6 +13,8 @@ public interface StudentService {
 
     ResponseEntity<Void> addStudents(List<Student> students);
 
+    ResponseEntity<Void> addStudentAssociatedTeacher(StudentEntity student);
+
     ResponseEntity<Void> updateStudent(Student student);
 
     ResponseEntity<Void> deleteStudentBySerialNumber(String serialNumber);
