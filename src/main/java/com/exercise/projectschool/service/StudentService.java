@@ -20,4 +20,6 @@ public interface StudentService {
     ResponseEntity<Void> deleteStudentBySerialNumber(String serialNumber);
 
     ResponseEntity<Void> deleteAllStudents();
+
+    ResponseEntity<Void> deleteStudentassociatedeTeacher(String serialNumber);
 }

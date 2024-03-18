@@ -10,5 +10,7 @@ public interface StudentRepository extends JpaRepository<StudentEntity, Long> {
 
     List<StudentEntity> findBySerialNumberIgnoreCase(String serialNumber);
 
+    StudentEntity findSingleBySerialNumberIgnoreCase(String serialNumber);
+
     List<StudentEntity> findStudentBySchool(String school);
 }
