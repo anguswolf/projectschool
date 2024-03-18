@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -70,9 +72,11 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public ResponseEntity<Void> addStudentAssociatedTeacher(StudentEntity student) {
         try {
-            StudentEntity studentAssociatedTeacher = studentRepository.save(student);
+            //StudentEntity studentAssociatedTeacher =
 
-            log.info("Studente aggiunto: {}", studentAssociatedTeacher);
+                    studentRepository.save(student);
+
+            log.info("Studente aggiunto: {}", student);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
             log.error(e);
@@ -142,4 +146,22 @@ public class StudentServiceImpl implements StudentService {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @Override
+    public ResponseEntity<Void> deleteStudentassociatedeTeacher(String serialNumber) {
+        StudentEntity studentToDelete = studentRepository.findSingleBySerialNumberIgnoreCase(serialNumber);
+
+        if (studentToDelete != null) {
+            studentRepository.delete(studentToDelete);
+            log.info("Studente eliminato dal Database con il serial Number: {}",serialNumber);
+
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else {
+
+            log.info("Nessun Studente trovato nel Database con il serial Number: {}",serialNumber);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+
 }

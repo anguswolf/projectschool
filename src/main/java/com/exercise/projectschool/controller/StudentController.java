@@ -41,14 +41,19 @@ public class StudentController {
         return studentService.addStudentAssociatedTeacher(student);
     }
 
-    @PutMapping(path = "/update")
-    public ResponseEntity<Void> updateStudent(@RequestBody Student student) {
-        return studentService.updateStudent(student);
-    }
-
     @DeleteMapping(path = "/delete/{serialNumber}")
     public ResponseEntity<Void> deleteStudent(@PathVariable String serialNumber) {
         return studentService.deleteStudentBySerialNumber(serialNumber);
+    }
+
+    @DeleteMapping(path = "/delete/student/associated/teacher/{serialNumber}")
+    public ResponseEntity<Void> deleteStudentAssociatedTeacher(@PathVariable String serialNumber){
+        return studentService.deleteStudentassociatedeTeacher(serialNumber );
+    }
+
+    @PutMapping(path = "/update")
+    public ResponseEntity<Void> updateStudent(@RequestBody Student student) {
+        return studentService.updateStudent(student);
     }
 
     @DeleteMapping(path = "/delete/all")
