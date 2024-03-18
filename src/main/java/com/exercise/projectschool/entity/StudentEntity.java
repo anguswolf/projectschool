@@ -48,9 +48,8 @@ public class StudentEntity {
     ClassRoomEntity classRoomRelation;*/
 
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(name = "TEACHER_STUDENT_MAPPING", joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "teacher_id"))
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @ManyToMany(mappedBy = "StudentEntityList")
+    @JsonManagedReference
+    @JsonIgnoreProperties("studentEntityList")
     List<TeacherEntity> teacherEntityList;
 }
