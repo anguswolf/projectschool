@@ -1,7 +1,9 @@
 package com.exercise.projectschool.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -39,14 +41,16 @@ public class TeacherEntity {
     @Column(name = "classroom")
     String classRoom;
 
-   /* //@JsonIgnore
+   /*//@JsonIgnore
     @JsonManagedReference
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "teacherList", cascade = CascadeType.ALL)
     List<ClassRoomEntity> classRoomList;*/
 
-    @JsonIgnore
-    @JsonManagedReference
-    @ManyToMany(mappedBy = "teacherEntityList", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+            @JoinTable(name = "TEACHER_STUDENT_MAPPING", joinColumns = @JoinColumn(name = "teacher_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id"))
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     List<StudentEntity> StudententityList;
 
     @JsonIgnore

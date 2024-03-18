@@ -36,6 +36,11 @@ public class StudentController {
        return studentService.addStudents(students);
     }
 
+    @PostMapping(path = "add/student/associated/teacher")
+    public ResponseEntity<Void> addStudentAssociatedTeacher(@RequestBody StudentEntity student) {
+        return studentService.addStudentAssociatedTeacher(student);
+    }
+
     @PutMapping(path = "/update")
     public ResponseEntity<Void> updateStudent(@RequestBody Student student) {
         return studentService.updateStudent(student);
