@@ -11,6 +11,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -148,19 +149,23 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public ResponseEntity<Void> deleteStudentassociatedeTeacher(String serialNumber) {
-        StudentEntity studentToDelete = studentRepository.findSingleBySerialNumberIgnoreCase(serialNumber);
+    @Transactional
+    public ResponseEntity<Void> deleteStudentAssociatedTeacher(String serialNumber) {
+        List<StudentEntity> studentsToDelete = studentRepository.findBySerialNumberIgnoreCase(serialNumber);
 
-        if (studentToDelete != null) {
-            studentRepository.delete(studentToDelete);
-            log.info("Studente eliminato dal Database con il serial Number: {}",serialNumber);
-
-            return new ResponseEntity<>(HttpStatus.OK);
-        }else {
-
-            log.info("Nessun Studente trovato nel Database con il serial Number: {}",serialNumber);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        try {
+            if (!studentsToDelete.isEmpty()) {
+                studentRepository.deleteAll(studentsToDelete);
+                log.info("Studenti eliminati dal DB con il serialNumber {} ", serialNumber);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }else {
+                log.info("Nessuno studente trovato con il serialNumber {} ", serialNumber);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        }catch (Exception e) {
+            log.error(e);
         }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 
