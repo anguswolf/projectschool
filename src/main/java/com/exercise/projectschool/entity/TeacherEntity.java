@@ -38,12 +38,6 @@ public class TeacherEntity {
     @Column(name = "classroom")
     String classRoom;
 
-   /*//@JsonIgnore
-    @JsonManagedReference
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "teacherList", cascade = CascadeType.ALL)
-    List<ClassRoomEntity> classRoomList;*/
-
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
             @JoinTable(name = "TEACHER_STUDENT_MAPPING", joinColumns = @JoinColumn(name = "teacher_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id"))
