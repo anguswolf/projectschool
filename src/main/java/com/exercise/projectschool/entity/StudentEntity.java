@@ -1,6 +1,5 @@
 package com.exercise.projectschool.entity;
 
-import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -41,12 +40,6 @@ public class StudentEntity {
 
     @Column(name = "classroom")
     String classRoom;
-
-    /*//@JsonIgnore
-    @JsonManagedReference
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    ClassRoomEntity classRoomRelation;*/
-
 
     //@ManyToMany(mappedBy = "StudentEntityList")
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
