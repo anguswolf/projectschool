@@ -1,5 +1,6 @@
 package com.exercise.projectschool.service;
 
+import com.exercise.projectschool.dto.StudentDTO;
 import com.exercise.projectschool.entity.StudentEntity;
 import com.exercise.projectschool.model.Student;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +10,11 @@ import java.util.List;
 public interface StudentService {
     ResponseEntity<List<StudentEntity>> getAllStudents();
 
+    ResponseEntity<List<StudentDTO>> getAllStudentsWithJpa();
+
     ResponseEntity<List<StudentEntity>>  getStudentBySerialNumber(String serialNumber);
+
+    ResponseEntity<StudentDTO> getStudentBySerialNumberWithJpa(String serialNumber);
 
     ResponseEntity<Void> addStudents(List<Student> students);
 

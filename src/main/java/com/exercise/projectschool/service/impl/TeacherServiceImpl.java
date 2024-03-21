@@ -1,6 +1,9 @@
 package com.exercise.projectschool.service.impl;
 
 import com.exercise.projectschool.commonUtils.CommonUtils;
+import com.exercise.projectschool.dto.StudentDTO;
+import com.exercise.projectschool.dto.TeacherDTO;
+import com.exercise.projectschool.entity.StudentEntity;
 import com.exercise.projectschool.entity.TeacherEntity;
 import com.exercise.projectschool.model.Teacher;
 import com.exercise.projectschool.repository.TeacherRepository;
@@ -12,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -19,6 +23,7 @@ import java.util.List;
 @Log4j2
 public class TeacherServiceImpl implements TeacherService {
     private final TeacherRepository teacherRepository;
+    private final CommonUtils commonUtils;
 
     @Override
     public ResponseEntity<List<TeacherEntity>> getTeacherBySerialNumber(String serialNumber) {
@@ -33,11 +38,71 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
+    public ResponseEntity<TeacherDTO> getTeacherBySerialNumberWithJpa(String serialNumber) {
+        List<TeacherEntity> listAllTeachers = teacherRepository.findTeacherBySerialNumber(serialNumber);
+        List<StudentDTO> studentDTOList = new ArrayList<>();
+
+
+        if (listAllTeachers.size() > 1) {
+            log.info("Trovati piu insegnanti con il serialNumber {} ", serialNumber);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        } else if (!listAllTeachers.isEmpty()) {
+            List<StudentEntity> studentEntities = listAllTeachers.get(0).getStudentEntityList();
+            for (StudentEntity studentEntity : studentEntities) {
+                StudentDTO studentDTO = StudentDTO.builder()
+                        .id(studentEntity.getId())
+                        .name(studentEntity.getName())
+                        .city(studentEntity.getCity())
+                        .capital(studentEntity.getCapital())
+                        .age(studentEntity.getAge())
+                        .school(studentEntity.getSchool())
+                        .serialNumber(studentEntity.getSerialNumber())
+                        .classRoom(studentEntity.getClassRoom())
+                        .teachers(Collections.emptyList()).build();  // Inizializza con una lista vuota
+                studentDTOList.add(studentDTO);
+            }
+
+            TeacherDTO teacherDTO = TeacherDTO.builder()
+                    .id(listAllTeachers.get(0).getId())
+                    .name(listAllTeachers.get(0).getName())
+                    .email(listAllTeachers.get(0).getEmail())
+                    .matter(listAllTeachers.get(0).getMatter())
+                    .school(listAllTeachers.get(0).getSchool())
+                    .serialNumber(listAllTeachers.get(0).getSerialNumber())
+                    .classRoom(listAllTeachers.get(0).getClassRoom())
+                    .students(studentDTOList).build();
+
+            log.info("Trovati insegnanti con il serialNumber: {}", serialNumber);
+            return new ResponseEntity<>(teacherDTO, HttpStatus.OK);
+        } else {
+            log.info("Non esiste un insegnanti con questo serialNumber: {}", serialNumber);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @Override
     public ResponseEntity<List<TeacherEntity>> getAllTeachers() {
-        List<TeacherEntity> listAllTeachers = teacherRepository.findAll();
+        List<TeacherEntity> listAllTeachers = commonUtils.findAllEntities(teacherRepository);
         log.info("Insegnanti presenti: {}", listAllTeachers);
 
         return new ResponseEntity<>(listAllTeachers, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<TeacherDTO>> getAllTeachersWithJpa() {
+        List<TeacherEntity> listAllTeachers = commonUtils.findAllEntities(teacherRepository);
+        List<TeacherDTO> teacherDTOList = new ArrayList<>();
+
+            if(!listAllTeachers.isEmpty()) {
+                for (TeacherEntity teacher: listAllTeachers) {
+                TeacherDTO buildTeacherDTO = CommonUtils.buildTeacherDTOWithJpa(teacher);
+                    teacherDTOList.add(buildTeacherDTO);
+            }
+            log.info("Trovati insegnanti");
+            return new ResponseEntity<>(teacherDTOList, HttpStatus.OK);
+        }
+        log.info("Nessun insegnante trovato");
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @Override
@@ -110,7 +175,7 @@ public class TeacherServiceImpl implements TeacherService {
 
         if(!allTeachersFromDb.isEmpty()) {
             teacherRepository.deleteAll();
-            log.info("Tutti gli insegnanti {} eliminati dal database", allTeachersFromDb);
+            log.info("Tutti gli insegnanti eliminati dal database: {}", allTeachersFromDb);
             return new ResponseEntity<>(HttpStatus.OK);
         }else {
             log.info("Nessun Insegnante trovato nel Database");
