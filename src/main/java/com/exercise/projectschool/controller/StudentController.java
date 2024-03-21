@@ -1,5 +1,6 @@
 package com.exercise.projectschool.controller;
 
+import com.exercise.projectschool.dto.StudentDTO;
 import com.exercise.projectschool.entity.StudentEntity;
 import com.exercise.projectschool.model.Student;
 import com.exercise.projectschool.service.StudentService;
@@ -19,9 +20,20 @@ public class StudentController {
     public ResponseEntity<List<StudentEntity>> getStudent(@PathVariable String serialNumber) {
         return studentService.getStudentBySerialNumber(serialNumber);
     }
+
+    @GetMapping(path = "/data/jpa/{serialNumber}")
+    public ResponseEntity<StudentDTO> getStudentWithJpa(@PathVariable String serialNumber) {
+        return studentService.getStudentBySerialNumberWithJpa(serialNumber);
+    }
+
     @GetMapping(path= "/all")
     public ResponseEntity<List<StudentEntity>> getAllStudents() {
         return studentService.getAllStudents();
+    }
+
+    @GetMapping(path= "/all/data/jpa")
+    public ResponseEntity<List<StudentDTO>> getAllStudentsWithJpa() {
+        return studentService.getAllStudentsWithJpa();
     }
 
     @PostMapping(path= "/add")
