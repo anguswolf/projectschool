@@ -1,5 +1,6 @@
 package com.exercise.projectschool.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -35,6 +36,7 @@ public class StudentEntity {
     @Column(name = "school")
     String school;
 
+
     @Column(name = "serialnumber")
     String serialNumber;
 
@@ -45,7 +47,7 @@ public class StudentEntity {
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
     @JoinTable(name = "TEACHER_STUDENT_MAPPING", joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "teacher_id"))
-    //@JsonManagedReference
+    @JsonManagedReference
     //@JsonIgnoreProperties("studentEntityList")
     List<TeacherEntity> teacherEntityList;
 }

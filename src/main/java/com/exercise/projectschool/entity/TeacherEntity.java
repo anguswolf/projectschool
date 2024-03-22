@@ -41,8 +41,8 @@ public class TeacherEntity {
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
             @JoinTable(name = "TEACHER_STUDENT_MAPPING", joinColumns = @JoinColumn(name = "teacher_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id"))
-    //@JsonBackReference
-    //@JsonIgnoreProperties("teacherEntityList")
+    @JsonBackReference
+    @JsonIgnoreProperties("teacherEntityList")
     List<StudentEntity> StudentEntityList;
 
     @JsonIgnore
