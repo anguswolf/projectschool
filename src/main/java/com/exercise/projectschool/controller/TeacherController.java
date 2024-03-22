@@ -4,6 +4,7 @@ import com.exercise.projectschool.dto.TeacherDTO;
 import com.exercise.projectschool.entity.TeacherEntity;
 import com.exercise.projectschool.model.Teacher;
 import com.exercise.projectschool.service.TeacherService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path= "/teacher")
+@Tag(name = "Teacher Management")
 public class TeacherController {
 
     private final TeacherService teacherService;
