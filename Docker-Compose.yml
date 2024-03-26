@@ -2,13 +2,15 @@ version: '1'
 
 services:
   mysql:
-    image: mysql:5.7
+    image: mysql
     ports:
       - "3307:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD=1379
-      - MYSQL_DATABASE=schooldb
-  project-school:
+    env_file:
+      - project-school-config-mysql.envfile
+  projectschool:
+    build:
+      context: .
+      dockerfile: Dockerfile
     depends_on:
       - mysql
     image: projectschool
@@ -16,6 +18,4 @@ services:
       - "8081:8080"
     env_file:
       - project-school-config-docker.envfile
-
-
-
+    restart: always
