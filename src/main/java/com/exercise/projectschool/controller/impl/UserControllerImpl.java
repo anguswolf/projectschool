@@ -19,23 +19,22 @@ public class UserControllerImpl implements UserController {
     private final UserRepository userRepo;
 
     @GetMapping("/anyone")
-    public ResponseEntity<?> getTestAPI1(){
+    public ResponseEntity<?> getTestAPI1() {
         return ResponseEntity.ok("Response");
     }
 
 
-    @PreAuthorize("hasRole('ROLE_MANAGER')")
-    @GetMapping("/manager")
-    public ResponseEntity<?> getTestAPI2(Principal principal){
-
-        return ResponseEntity.ok(principal.getName()+" : is accessing manager api. All data from backend"+ userRepo.findAll());
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/admin")
+    public ResponseEntity<?> getTestAPI2(Principal principal) {
+        return ResponseEntity.ok(principal.getName() + " : is accessing admin api. All data from backend" + userRepo.findAll());
     }
-
-
 
     @PreAuthorize("hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')")
-    @GetMapping("/admin")
-    public ResponseEntity<?> getTestAPI3(Principal principal){
-        return ResponseEntity.ok(principal.getName()+" : is accessing admin api. All data from backend"+ userRepo.findAll());
+    @GetMapping("/manager")
+    public ResponseEntity<?> getTestAPI3(Principal principal) {
+        return ResponseEntity.ok(principal.getName() + " : is accessing manager api. All data from backend" + userRepo.findAll());
     }
+
+
 }

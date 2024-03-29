@@ -15,8 +15,6 @@ import java.util.List;
 public class ProjectschoolApplication {
 
 
-
-
     public static void main(String[] args) {
         SpringApplication.run(ProjectschoolApplication.class, args);
     }
@@ -24,19 +22,19 @@ public class ProjectschoolApplication {
 
     //Command line runner: After the application context, but before the application starts
     @Bean
-    CommandLineRunner commandLineRunner(UserRepository userRepo, PasswordEncoder passwordEncoder){
+    CommandLineRunner commandLineRunner(UserRepository userRepo, PasswordEncoder passwordEncoder) {
         return args -> {
-            UserEntity manager = new UserEntity();
-            manager.setUsername("manager");
-            manager.setPassword(passwordEncoder.encode("password"));
-            manager.setRoles("ROLE_MANAGER");
-
             UserEntity admin = new UserEntity();
             admin.setUsername("admin");
             admin.setPassword(passwordEncoder.encode("password"));
             admin.setRoles("ROLE_MANAGER,ROLE_ADMIN");
 
-            userRepo.saveAll(List.of(manager,admin));
+            UserEntity manager = new UserEntity();
+            manager.setUsername("manager");
+            manager.setPassword(passwordEncoder.encode("password"));
+            manager.setRoles("ROLE_MANAGER");
+
+            userRepo.saveAll(List.of(admin, manager));
         };
     }
 
