@@ -1,22 +1,13 @@
 package com.exercise.projectschool;
 
-import com.exercise.projectschool.entity.StudentEntity;
-import com.exercise.projectschool.entity.TeacherEntity;
-import com.exercise.projectschool.repository.StudentRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.exercise.projectschool.config.RSAKeyRecord;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@EnableConfigurationProperties(RSAKeyRecord.class)
 @SpringBootApplication
-
 public class ProjectschoolApplication {
-
-
-
 
     public static void main(String[] args) {
         SpringApplication.run(ProjectschoolApplication.class, args);
