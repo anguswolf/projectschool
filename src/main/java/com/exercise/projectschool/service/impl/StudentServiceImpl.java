@@ -50,7 +50,7 @@ public class StudentServiceImpl implements StudentService {
             return new ResponseEntity<>(studentDTOList, HttpStatus.OK);
         }
         log.info("Nessun studente trovato");
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class StudentServiceImpl implements StudentService {
             return new ResponseEntity<>(listAllStudents, HttpStatus.OK); // Restituisci lo studente trovato con codice di stato 200 OK
         } else {
             log.info("Non esiste uno studente con questo serialNumber: {}", serialNumber);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Restituisci un codice di stato 404 Not Found
+            return new ResponseEntity<>(HttpStatus.CONFLICT); // Restituisci un codice di stato 404 Not Found
         }
     }
 
@@ -103,7 +103,7 @@ public class StudentServiceImpl implements StudentService {
             return new ResponseEntity<>(studentDTO, HttpStatus.OK);
         } else {
             log.info("Non esiste uno studente con questo serialNumber: {}", serialNumber);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
 
@@ -175,7 +175,7 @@ public class StudentServiceImpl implements StudentService {
             return new ResponseEntity<>(HttpStatus.CREATED);
         } else {
             log.info("Nessun Studente trovato con serialNumber: {}", serialNumber);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
 
@@ -191,7 +191,7 @@ public class StudentServiceImpl implements StudentService {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             log.info("Nessun Studente trovato con serialNumber {}", serialNumber);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
 
@@ -205,7 +205,7 @@ public class StudentServiceImpl implements StudentService {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             log.info("Nessun Studente trovato nel Database");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
 

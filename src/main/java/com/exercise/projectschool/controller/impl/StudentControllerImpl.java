@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -89,6 +90,7 @@ public class StudentControllerImpl implements StudentController {
         return studentService.getAllStudents();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path= "/all/data/jpa")
     public ResponseEntity<List<StudentDTO>> getAllStudentsWithJpa() {
         return studentService.getAllStudentsWithJpa();

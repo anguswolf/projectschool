@@ -35,17 +35,32 @@ public class SecurityConfig {
                 .build();
     }
 
-
-    /*@Bean
+    @Bean
     @Order(2)
-    public SecurityFilterChain h2ConsoleSecurityFilterChainConfig(HttpSecurity httpSecurity) throws Exception{
+    public SecurityFilterChain apiSecurityFilterChain2(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                .securityMatcher(new AntPathRequestMatcher(("/h2-console/**")))
-                .authorizeHttpRequests(auth->auth.anyRequest().permitAll())
-                .csrf(csrf -> csrf.ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")))
-                .headers(headers -> headers.frameOptions(withDefaults()).disable())
+                .securityMatcher(new AntPathRequestMatcher("/student/**"))
+                .csrf(AbstractHttpConfigurer::disable) //CRSF protection is a crucial security measure to prevent Cross-Site Forgery attacks. Hence, it’s advisable to include the CRSF token in the request header of state-changing operations.
+                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+                .userDetailsService(jpaUserDetailsManagerConfig)
+                .formLogin(withDefaults())
+                .httpBasic(withDefaults())
                 .build();
-    }*/
+    }
+
+
+
+
+//    @Bean
+//    @Order(2)
+//    public SecurityFilterChain h2ConsoleSecurityFilterChainConfig(HttpSecurity httpSecurity) throws Exception{
+//        return httpSecurity
+//                .securityMatcher(new AntPathRequestMatcher(("/h2-console/**")))
+//                .authorizeHttpRequests(auth->auth.anyRequest().permitAll())
+//                .csrf(csrf -> csrf.ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")))
+//                .headers(headers -> headers.frameOptions(withDefaults()).disable())
+//                .build();
+//    }
 
     @Bean
     PasswordEncoder passwordEncoder(){
