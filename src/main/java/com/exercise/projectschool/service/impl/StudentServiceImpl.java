@@ -134,8 +134,6 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public ResponseEntity<Void> addStudentAssociatedTeacher(StudentEntity student) {
         try {
-            //StudentEntity studentAssociatedTeacher =
-
             studentRepository.save(student);
 
             log.info("Studente aggiunto: {}", student);

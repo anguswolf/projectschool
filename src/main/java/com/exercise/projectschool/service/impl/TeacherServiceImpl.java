@@ -33,7 +33,7 @@ public class TeacherServiceImpl implements TeacherService {
             return new ResponseEntity<>(listAllTeachers, HttpStatus.OK);
         } else {
             log.info("Nessun insegnante con il serialNumber: {}", serialNumber);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
 
@@ -76,7 +76,7 @@ public class TeacherServiceImpl implements TeacherService {
             return new ResponseEntity<>(teacherDTO, HttpStatus.OK);
         } else {
             log.info("Non esiste un insegnanti con questo serialNumber: {}", serialNumber);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
 
@@ -102,7 +102,7 @@ public class TeacherServiceImpl implements TeacherService {
             return new ResponseEntity<>(teacherDTOList, HttpStatus.OK);
         }
         log.info("Nessun insegnante trovato");
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
     @Override
@@ -151,7 +151,7 @@ public class TeacherServiceImpl implements TeacherService {
             return new ResponseEntity<>(HttpStatus.CREATED);
         } else {
             log.info("Nessun insegnante trovato con serialNumber: {}", serialNumber);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -165,7 +165,7 @@ public class TeacherServiceImpl implements TeacherService {
             return new ResponseEntity<>(HttpStatus.OK);
         }else {
             log.info("Nessun Insegnante trovato con serialNumber {}", serialNumber);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
 
@@ -179,7 +179,7 @@ public class TeacherServiceImpl implements TeacherService {
             return new ResponseEntity<>(HttpStatus.OK);
         }else {
             log.info("Nessun Insegnante trovato nel Database");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
 
