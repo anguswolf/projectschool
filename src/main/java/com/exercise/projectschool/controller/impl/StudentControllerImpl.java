@@ -93,7 +93,7 @@ public class StudentControllerImpl implements StudentController {
 
     @Operation(
             description = "Get All Students with JPA",
-            summary = "Return List of all Students by with JPA",
+            summary = "Return List of all Students with JPA",
             responses = {
                     @ApiResponse(
                             description = "Find all students",

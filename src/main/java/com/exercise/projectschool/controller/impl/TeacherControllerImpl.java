@@ -80,7 +80,7 @@ public class TeacherControllerImpl implements TeacherController {
 
     @Operation(
             description = "Get All Teachers with JPA",
-            summary = "Return List of Teachers by SerialNumber with JPA",
+            summary = "Return List of all Teachers with JPA",
             responses = {
                     @ApiResponse(
                             description = "Find all Teachers",
