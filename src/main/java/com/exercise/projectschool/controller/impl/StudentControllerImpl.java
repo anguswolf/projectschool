@@ -188,8 +188,8 @@ public class StudentControllerImpl implements StudentController {
     }
 
     @Operation(
-            description = "Add student with an associate professor",
-            summary = "Return List student with an associate professor",
+            description = "Add student with an associate teacher",
+            summary = "Return List student with an associate teacher",
             responses = {
                     @ApiResponse(
                             description = "Add student with an associate professor",
@@ -229,7 +229,7 @@ public class StudentControllerImpl implements StudentController {
                             )
                     ),
                     @ApiResponse(
-                            description = "Student with an associate professor already present in the DB",
+                            description = "Student with an associate teacher already present in the DB",
                             responseCode = "400",
                             content = @Content(
                                     mediaType = "application/json",

@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-school-deployment
+  labels:
+    app: project-school
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: project-school
+  template:
+    metadata:
+      labels:
+        app: project-school
+    spec:
+      containers:
+        - name: project-school
+          image: michaelspi/projectschool:v1.0
+          ports:
+            - containerPort: 8081
+          command: [ "sleep", "1000"]
+          env:
+            - name: SCHOOL_JDBC_URL
+              value: jdbc:mysql://host.docker.internal:3307/schooldb
+            - name: SCHOOL_MYSQL_USER
+              value: root
+            - name: SCHOOL_MYSQL_PWD
+              value: "1379"
+        - name: mysql
+          image: mysql:latest
+          ports:
+            - containerPort: 3307
+          env:
+            - name: MYSQL_DATABASE
+              value: schooldb
+            - name: MYSQL_ROOT_PASSWORD
+              value: "1379"
+
+
+
+
+
+
