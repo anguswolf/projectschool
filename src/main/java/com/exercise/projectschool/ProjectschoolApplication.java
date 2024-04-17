@@ -5,13 +5,11 @@ import com.exercise.projectschool.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.List;
-
-@SpringBootApplication
-
+@SpringBootApplication(exclude = {KafkaAutoConfiguration.class})
 public class ProjectschoolApplication {
 
 
@@ -25,16 +23,19 @@ public class ProjectschoolApplication {
     CommandLineRunner commandLineRunner(UserRepository userRepo, PasswordEncoder passwordEncoder) {
         return args -> {
             UserEntity admin = new UserEntity();
-            admin.setUsername("admin");
-            admin.setPassword(passwordEncoder.encode("password"));
-            admin.setRoles("ROLE_MANAGER,ROLE_ADMIN");
-
             UserEntity manager = new UserEntity();
-            manager.setUsername("manager");
-            manager.setPassword(passwordEncoder.encode("password"));
-            manager.setRoles("ROLE_MANAGER");
-
-            userRepo.saveAll(List.of(admin, manager));
+            if(userRepo.findByUsername("admin").isEmpty()) {
+                admin.setUsername("admin");
+                admin.setPassword(passwordEncoder.encode("password"));
+                admin.setRoles("ROLE_MANAGER,ROLE_ADMIN");
+                userRepo.save(admin);
+            }
+            if(userRepo.findByUsername("manager").isEmpty()) {
+                manager.setUsername("manager");
+                manager.setPassword(passwordEncoder.encode("password"));
+                manager.setRoles("ROLE_MANAGER");
+                userRepo.save(manager);
+            }
         };
     }
 

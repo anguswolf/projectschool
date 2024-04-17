@@ -3,6 +3,7 @@ package com.exercise.projectschool.controller.impl;
 import com.exercise.projectschool.controller.StudentController;
 import com.exercise.projectschool.dto.StudentDTO;
 import com.exercise.projectschool.entity.StudentEntity;
+import com.exercise.projectschool.kafka.producer.StudentKafkaProducer;
 import com.exercise.projectschool.model.Student;
 import com.exercise.projectschool.service.StudentService;
 import io.swagger.v3.oas.annotations.Hidden;
@@ -25,6 +26,7 @@ import java.util.List;
 @Tag(name = "Student Management")
 public class StudentControllerImpl implements StudentController {
     private final StudentService studentService;
+    private final StudentKafkaProducer studentKafkaProducer;
 
 
     @GetMapping(path = "/{serialNumber}")
@@ -186,6 +188,49 @@ public class StudentControllerImpl implements StudentController {
     public ResponseEntity<Void> addStudents(@RequestBody List<Student> students) {
         return studentService.addStudents(students);
     }
+
+    @Operation(
+            description = "Add Student To Kafka",
+            summary = "Add Student To Kafka",
+            responses = {
+                    @ApiResponse(
+                            description = "Add student To Kafka",
+                            responseCode = "200",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = StudentDTO.class),
+                                    examples = @ExampleObject(value = """
+                                                [
+                                                    {
+                                                        "name": "Augusto",
+                                                        "city": "Milano",
+                                                        "capital": "Italy",
+                                                        "age": "sesanta",
+                                                        "school": "Colosseo",
+                                                        "serialNumber": "346345",
+                                                        "classRoom":"3B"
+                                                    }
+                                                ]
+                                            """)
+                            )
+                    ),
+                    @ApiResponse(
+                            description = "Student already present in the DB",
+                            responseCode = "400",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = StudentDTO.class),
+                                    examples = @ExampleObject(value = "[]")
+                            )
+                    )
+            }
+    )
+    @PostMapping(path = "/add/kafka")
+    public ResponseEntity<Void> addStudentsToKafka(@RequestBody List<Student> students) {
+        studentKafkaProducer.send(students.get(0));
+        return studentService.addStudents(students);
+    }
+
 
     @Operation(
             description = "Add student with an associate teacher",

@@ -24,6 +24,9 @@ public interface StudentController {
     @PostMapping(path = "/add")
     ResponseEntity<Void> addStudents(@RequestBody List<Student> students);
 
+    @PostMapping(path = "/add/kafka")
+    ResponseEntity<Void> addStudentsToKafka(@RequestBody List<Student> students);
+
     @PostMapping(path = "/add/student/associated/teacher")
     ResponseEntity<Void> addStudentAssociatedTeacher(@RequestBody StudentEntity student);
 

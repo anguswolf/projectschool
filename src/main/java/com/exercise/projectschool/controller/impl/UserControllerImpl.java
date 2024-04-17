@@ -18,6 +18,7 @@ public class UserControllerImpl implements UserController {
 
     private final UserRepository userRepo;
 
+
     @GetMapping("/anyone")
     public ResponseEntity<?> getTestAPI1() {
         return ResponseEntity.ok("Response");
@@ -35,6 +36,4 @@ public class UserControllerImpl implements UserController {
     public ResponseEntity<?> getTestAPI3(Principal principal) {
         return ResponseEntity.ok(principal.getName() + " : is accessing manager api. All data from backend" + userRepo.findAll());
     }
-
-
 }
